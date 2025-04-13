@@ -1,0 +1,7 @@
+const int MOD = 1000000007;
+long long binExp(int base, long long pow) {
+    if(pow == 0) return 1;
+    long long res = (binExp(base, pow/2) % MOD);
+    return (((res * res) % MOD) * ((pow & 1 ? base : 1) % MOD)) % MOD;
+}
+
