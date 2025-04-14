@@ -1,0 +1,29 @@
+
+void palindromicNumber(int n) {
+    int m = (n + 1) / 2;             /* the first half is found out*/
+
+    int start = pow(10,m-1);         /* all the possible values half the digit is founded */
+    int end = ceil(pow(10,m)) - 1;
+
+   if(n & 1) {
+        m -= 1;                      /* if the half is for odd last element is not consider */
+    }
+    
+   
+
+    for(int i = start; i <= end;i++) {            /* loop will generate all the possible number*/
+     
+        string temp = to_string(i);                 /* first part is generate*/
+       
+        string subpart = temp.substr(0,m);           /* required subpart based on odd or even*/
+    
+        reverse(subpart.begin(), subpart.end());        /* reverse the subpart */
+
+        temp += subpart;                                    /* merge it in number*/
+      
+        cout<<temp<<" ";                            /* temp is the palindrome of digit n*/
+    }  
+
+    /* if requried collect all the temp*/
+    return ;
+}
