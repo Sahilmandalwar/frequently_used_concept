@@ -33,7 +33,7 @@ void update_query_segment_tree(vector<int>& segmentTree, int idx, int value, int
 
 int query(vector<int>& segmentTree, int start, int end , int curr_idx, int left, int right) {
 
-    if(left > end || right < start) {
+    if(left > end || right < start || left > right) {
         return 0;
     }
     else if(left >= start && right <= end) {
