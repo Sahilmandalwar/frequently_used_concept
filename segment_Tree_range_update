@@ -7,7 +7,7 @@ void range_update(vector<int>& segmentTree, vector<int>& lazyNodes , int start, 
         }
         lazyNodes[curr_idx] = 0;
     }
-    if(start > right || end < left) {
+    if(left > end || right < start || left > right) {
         return;
     }
     else if(left >= start && right <= end) {
