@@ -1,0 +1,29 @@
+void range_update(vector<int>& segmentTree, vector<int>& lazyNodes , int start, int end , int val, int curr_idx, int left, int right) {
+    if(lazyNodes[curr_idx] != 0) {
+        segmentTree[curr_idx] += (right - left + 1)*lazyNodes[curr_idx];
+        if(left != right) {
+            lazyNodes[2*curr_idx + 1] = lazyNodes[curr_idx];
+            lazyNodes[2*curr_idx + 2] = lazyNodes[curr_idx];
+        }
+        lazyNodes[curr_idx] = 0;
+    }
+    if(start > right || end < left) {
+        return;
+    }
+    else if(left >= start && right <= end) {
+        segmentTree[curr_idx] += (right - left + 1)*val;
+        if(left != right){
+            lazyNodes[2*curr_idx + 1] += val;
+            lazyNodes[2*curr_idx + 2] += val;
+        }
+        return;
+    }
+    else{
+        int mid = left + (right - left) / 2;
+        range_update(segmentTree, lazyNodes, start, end , val, 2*curr_idx + 1, left, mid);
+        range_update(segmentTree, lazyNodes, start, end , val, 2*curr_idx + 2, mid + 1, right);
+        segmentTree[curr_idx] = segmentTree[2*curr_idx + 1] + segmentTree[2*curr_idx + 2];
+        return;
+    }
+
+}
