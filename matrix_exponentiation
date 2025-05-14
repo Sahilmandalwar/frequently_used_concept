@@ -1,0 +1,33 @@
+
+
+int MOD = 1e9 + 7;
+vector<vector<int>> matrix_multiplication(const vector<vector<int>>& matrix,const vector<vector<int>>& second_matrix) {
+    vector<vector<int>> solution(26, vector<int>(26, 0));
+    for(int i = 0; i < 26; i++) {
+        for(int j = 0; j < 26; j++) {
+            for(int k = 0; k < 26;k ++) {
+                solution[i][j] = (solution[i][j] % MOD +(1LL * matrix[i][k] * second_matrix[k][j]) % MOD) % MOD;
+            }
+        }
+    }
+    return solution;
+}
+
+
+vector<vector<int>> matrix_exponential(vector<vector<int>> matrix, int exponent) {
+    if(exponent == 0) {
+        vector<vector<int>>identity(26,vector<int>(26,0));
+        for(int i = 0; i < 26; i++) {
+            identity[i][i] = 1;
+        }
+        return identity;
+    }
+    vector<vector<int>> half = matrix_exponential(matrix, exponent / 2);
+    vector<vector<int>> res = matrix_multiplication(half, half);
+    if(exponent & 1) {
+        res = matrix_multiplication(res, matrix);
+    }
+    return res;
+}
+
+/* it must be taken care the matrix exponential is made by with respect to matrix of size 26 x 26 */
