@@ -1,0 +1,17 @@
+int MOD = 1e9 + 7;
+
+long long binExp(int base, long long pow) {
+    if(pow == 0) return 1;
+    long long res = (binExp(base, pow/2) % MOD);
+    return (((res * res) % MOD) * ((pow & 1 ? base : 1) % MOD)) % MOD;
+}
+
+int modInv(int n) {
+    return (binExp(n, MOD - 2) % MOD);
+}
+
+
+// (( a / b ) mod MOD) = ((a % MOD) * (modInv(b))) % MOD;
+// important - why working ?
+// according to fermat little's theorem pow(b,-1) mod MOD = pow(b,MOD - 2) mod MOD
+// condition MOD is prime.
