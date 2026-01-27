@@ -1,0 +1,23 @@
+
+// note : vector dist has passed reference by so you have to create a vector in your main and passed it. 
+
+void applyDijsktra(vector<int>& dist, unordered_map<int,vector<pair<int,int>>>& graph, int src) {
+    priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;
+    pq.push({0,src});
+    dist[src] = 0;
+    while(pq.empty() == false) {
+        auto [curr_dist, curr_node] = pq.top();
+        pq.pop();
+        if(curr_dist > dist[curr_node]) continue;
+        for(auto &it: graph[curr_node]) {
+            auto [node, distance] = it;
+            
+            int relaxation = distance + curr_dist;
+            if( relaxation < dist[node] ) {
+                dist[node] = relaxation;
+                pq.push( {relaxation,node} );
+            }
+        } 
+    }
+  return;
+}
