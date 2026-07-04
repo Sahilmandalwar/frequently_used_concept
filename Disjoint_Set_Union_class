@@ -1,0 +1,34 @@
+class DSU {
+    vector<int>parent;
+    vector<int>rank;
+public:
+    DSU(int n) {
+        parent.resize(n+1);
+        rank.resize(n+1,0);
+        for(int i = 0; i <=n; i++) {
+            parent[i] = i;
+        }
+    }
+
+    int find(int node) {
+        if(parent[node] == node) return node;
+        return parent[node] = find(parent[node]);
+    }
+
+    void uniony(int a, int b) {
+        int parent_a = find(a);
+        int parent_b = find(b);
+
+        if(parent_a == parent_b) return;
+
+        if(rank[parent_a] > rank[parent_b]) {
+            parent[parent_b] = parent_a;
+        }else if(rank[parent_b] > rank[parent_a]) {
+            parent[parent_a] = parent_b;
+        }else{
+            rank[parent_a]++;
+            parent[parent_b] = parent_a;
+        }
+        return;
+    }
+};
