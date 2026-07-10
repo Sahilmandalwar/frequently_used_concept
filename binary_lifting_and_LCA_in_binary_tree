@@ -1,0 +1,65 @@
+    vector<vector<int>>dp;     // binary lifting table
+
+    void dfs(unordered_map<int,vector<int>>& mpp, int curr_node, vector<int>& depth,vector<bool>&visited){   // finding depth 
+        visited[curr_node] = true;
+        for(auto &it: mpp[curr_node]) {
+            if(visited[it] == false) {
+                dp[it][0] = curr_node;
+                depth[it] = depth[curr_node] + 1;
+                dfs(mpp, it, depth, visited);
+            }
+        }
+    }
+
+    void fill_dp(int column, int nodes)  {           // fill binary lifting dp
+        for(int col = 1; col < column; col++) {
+            for(int i = 1; i < nodes; i++) {
+                if(dp[i][col-1] == -1) continue;
+                dp[i][col] = dp[dp[i][col-1]][col-1];
+            }
+        }
+    }
+
+    int find_lca(int u, int v, vector<int>& depth) {      // finding LCA using binary lifting
+        int depth_u = depth[u];
+        int depth_v = depth[v];
+
+        if(depth_v > depth_u) {
+            swap(v,u);
+        }
+
+        int k = abs(depth_u - depth_v);
+
+        for(int i = 0; i < dp[0].size() ; i++) {  // depth equalizing
+            if(k & (1 << i)) {
+                u = dp[u][i];
+                if(u == -1) {
+                    break;
+                }
+            }
+        }
+
+        if(u == v) return u;
+
+        for(int i = dp[0].size() - 1; i >= 0; i--) {
+            if(dp[u][i] == -1) continue;
+            if(dp[u][i] != dp[v][i]) {
+                u = dp[u][i];
+                v = dp[v][i];
+            }
+        }
+
+        return dp[u][0];
+    }
+
+
+        vector<int>depth(n+2, -1);
+        vector<bool>visited(n+2, false);
+        depth[1] = 0;
+       
+        int column = log2(n+2) + 1;
+        dp.resize(n+2, vector<int>(column, -1));
+        dfs(mpp, 1, depth, visited);
+        
+        fill_dp(column, n+2);
+
